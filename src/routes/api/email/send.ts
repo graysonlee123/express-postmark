@@ -10,7 +10,7 @@ router.post('/', async (req: Request, res: Response<ApiResponse>) => {
   const parser = RequestBodySchema.safeParse(req.body)
 
   if (!parser.success) {
-    console.warn('Invalid request body:', parser.error.errors)
+    console.warn(`[${new Date().toISOString()}]: Invalid request body ${JSON.stringify(parser.error.errors)}`)
 
     res.status(400).json({
       ok: false,
@@ -38,6 +38,8 @@ router.post('/', async (req: Request, res: Response<ApiResponse>) => {
 
     return
   }
+
+  console.log(`[${new Date().toISOString()}] Sent postmark email [${result.data.MessageID}] to [${result.data.To}]`)
 
   res.json({
     ok: true,
