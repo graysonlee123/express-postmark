@@ -13,6 +13,12 @@ createPostmarkClient(POSTMARK_API_TOKEN)
 app.use(express.json())
 app.use('/', sendEmail)
 
-app.listen(PORT, () => {
+app.listen(PORT, (error) => {
+  if (error) {
+    console.error(error)
+
+    return
+  }
+
   console.log('Listening on port ' + PORT)
 })
