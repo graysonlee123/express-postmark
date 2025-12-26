@@ -12,7 +12,7 @@ export function createSendEmailRouter(client: Client) {
     const parser = RequestBodySchema.safeParse(req.body)
 
     if (!parser.success) {
-      console.warn(`[${new Date().toISOString()}]: Invalid request body ${JSON.stringify(parser.error.errors)}`)
+      console.warn(`[${new Date().toISOString()}] [${req.requestId}] Invalid request body ${JSON.stringify(parser.error.errors)}`)
 
       res.status(400).json({
         ok: false,
@@ -41,7 +41,7 @@ export function createSendEmailRouter(client: Client) {
       return
     }
 
-    console.log(`[${new Date().toISOString()}] Sent postmark email [${result.data.MessageID}] to [${result.data.To}]`)
+    console.log(`[${new Date().toISOString()}] [${req.requestId}] Sent email [${result.data.MessageID}] to [${result.data.To}]`)
 
     res.json({
       ok: true,

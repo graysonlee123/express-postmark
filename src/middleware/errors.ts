@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 
 export function errors(error: unknown, req: Request, res: Response, next: NextFunction) {
   const timestamp = new Date().toISOString()
-  const prefix = `[${timestamp}] ${req.ip} ${req.method} ${req.url}`
+  const prefix = `[${timestamp}] [${req.requestId}] ${req.ip} ${req.method} ${req.url}`
 
   if (error instanceof SyntaxError && 'body' in error) {
     // JSON parse error from express.json()

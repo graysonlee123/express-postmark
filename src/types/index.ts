@@ -1,5 +1,13 @@
 import { Message } from "postmark"
 
+declare global {
+  namespace Express {
+    interface Request {
+      requestId: string
+    }
+  }
+}
+
 export type ApiResponse = {
   ok: boolean
   message: string
