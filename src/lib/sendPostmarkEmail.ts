@@ -1,6 +1,6 @@
+import { Client } from "postmark";
 import { MessageSendingResponse } from "postmark/dist/client/models";
 import { RestrictedMessage } from "../types";
-import { getPostmarkClient } from "./createPostmarkClient";
 import { env } from "./env";
 
 type Return = {
@@ -13,8 +13,7 @@ type Return = {
   data: MessageSendingResponse
 })
 
-export async function sendPostmarkEmail(message: RestrictedMessage): Promise<Return> {
-  const client = getPostmarkClient()
+export async function sendPostmarkEmail(client: Client, message: RestrictedMessage): Promise<Return> {
   const {EMAIL_FROM, EMAIL_TO} = env
 
   try {

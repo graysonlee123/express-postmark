@@ -5,17 +5,17 @@ import { createPostmarkClient } from './lib/createPostmarkClient'
 import { env } from './lib/env'
 import { errors } from './middleware/errors'
 import { logger } from './middleware/logger'
-import sendEmail from './routes/api/email/send'
+import { createSendEmailRouter } from './routes/api/email/send'
 
 const { POSTMARK_API_TOKEN, PORT } = env
 
-createPostmarkClient(POSTMARK_API_TOKEN)
+const postmarkClient = createPostmarkClient(POSTMARK_API_TOKEN)
 
 const app = express()
 
 app.use(express.json())
 app.use(logger)
-app.use('/', sendEmail)
+app.use('/', createSendEmailRouter(postmarkClient))
 app.use(errors)
 
 app.listen(PORT, (error) => {
