@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { PostmarkError } from "postmark/dist/client/errors/Errors";
 import { sendPostmarkEmail } from "../../../lib/sendPostmarkEmail";
 import { RequestBodySchema } from "../../../schemas/RequestBodySchema";
-import { ApiResponse } from "../../../types/global";
+import { ApiResponse } from "../../../types";
 
 const router = express.Router()
 

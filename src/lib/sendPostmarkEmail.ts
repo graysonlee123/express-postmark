@@ -1,5 +1,5 @@
 import { MessageSendingResponse } from "postmark/dist/client/models";
-import { RestrictedMessage } from "../types/global";
+import { RestrictedMessage } from "../types";
 import { getPostmarkClient } from "./createPostmarkClient";
 import { env } from "./env";
 
