@@ -16,6 +16,9 @@ const app = express()
 app.use(express.json())
 app.use(logger)
 app.use('/', createSendEmailRouter(postmarkClient))
+app.use((req, res) => {
+  res.status(404).json({ ok: false, message: 'Not found', errors: [] })
+})
 app.use(errors)
 
 app.listen(PORT, (error) => {
