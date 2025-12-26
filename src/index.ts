@@ -24,7 +24,7 @@ app.use((req, res) => {
 })
 app.use(errors)
 
-app.listen(PORT, (error) => {
+const server = app.listen(PORT, (error) => {
   if (error) {
     console.error(error)
 
@@ -33,3 +33,14 @@ app.listen(PORT, (error) => {
 
   console.log('Listening on port ' + PORT)
 })
+
+const shutdown = () => {
+  console.log('Shutting down gracefully...')
+  server.close(() => {
+    console.log('Server closed')
+    process.exit(0)
+  })
+}
+
+process.on('SIGTERM', shutdown)
+process.on('SIGINT', shutdown)
