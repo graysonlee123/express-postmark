@@ -32,10 +32,16 @@ export function createSendEmailRouter(client: Client) {
     })
 
     if (!result.success) {
+      const errorDetail = result.error instanceof PostmarkError
+        ? `${result.error.message} [${result.error.code}] [${result.error.statusCode}]`
+        : 'Unknown error.'
+
+      console.error(`[${new Date().toISOString()}] [${req.requestId}] Postmark error: ${errorDetail}`)
+
       res.status(400).json({
         ok: false,
         message: 'Postmark error.',
-        errors: [result.error instanceof PostmarkError ? `${result.error.message} [${result.error.code}] [${result.error.statusCode}]` : 'Unknown error.'],
+        errors: [errorDetail],
       })
 
       return
