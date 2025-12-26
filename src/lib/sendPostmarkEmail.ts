@@ -20,7 +20,7 @@ export async function sendPostmarkEmail(message: RestrictedMessage): Promise<Ret
   try {
     const response = await client.sendEmail({
       From: EMAIL_FROM,
-      To: EMAIL_TO,
+      To: EMAIL_TO.join(','),
       ...message,
     })
 
