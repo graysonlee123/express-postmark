@@ -7,9 +7,9 @@ import { errors } from './middleware/errors'
 import { logger } from './middleware/logger'
 import { createSendEmailRouter } from './routes/api/email/send'
 
-const { POSTMARK_API_TOKEN, PORT } = env
+const { POSTMARK_API_TOKEN, POSTMARK_TIMEOUT, PORT } = env
 
-const postmarkClient = createPostmarkClient(POSTMARK_API_TOKEN)
+const postmarkClient = createPostmarkClient(POSTMARK_API_TOKEN, POSTMARK_TIMEOUT)
 
 const app = express()
 
