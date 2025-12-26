@@ -12,18 +12,24 @@ pnpm start       # run dist/ (must build first)
 
 ## Architecture
 
-Express 5 REST API that sends emails via Postmark. Single endpoint: `POST /` with JSON body `{subject, html, text}`.
+Express 5 REST API that sends emails via Postmark.
 
-**Flow:** `index.ts` → logger middleware → `routes/api/email/send.ts` → `sendPostmarkEmail()` → errors middleware
+**Endpoints:**
+- `POST /` - send email with JSON body `{subject, html, text}`
+- `GET /health` - health check
+
+**Flow:** `index.ts` → logger middleware → route handlers → `sendPostmarkEmail()` → errors middleware
 
 **Key patterns:**
-- Postmark client is a singleton (`lib/createPostmarkClient.ts`) initialized at startup
+- Postmark client is a singleton (`lib/createPostmarkClient.ts`) initialized at startup with configurable timeout
+- Graceful shutdown on SIGTERM/SIGINT
 - `EMAIL_FROM` and `EMAIL_TO` are fixed via env vars (not from request body)
 - Request validation uses Zod schemas (`schemas/RequestBodySchema.ts`)
 - Env validation also via Zod (`lib/env.ts`)
 - Discriminated union types for API responses and result types (`types/global.d.ts`)
 
-**Env vars required:** `POSTMARK_API_TOKEN`, `EMAIL_FROM`, `EMAIL_TO` (optional: `PORT`, defaults 3000)
+**Env vars required:** `POSTMARK_API_TOKEN`, `EMAIL_FROM`, `EMAIL_TO`
+**Optional:** `PORT` (default 3000), `POSTMARK_TIMEOUT` (default 30s, max 180s)
 
 **Design decisions:**
 - No auth: assumes deployment on secure/private network
